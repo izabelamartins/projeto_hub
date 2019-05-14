@@ -106,7 +106,8 @@ e.preventDefault();
 });
 
 $('#submit').click(function() {
-var jsonText = JSON.stringify($('form').serializeObject());
+    var jsonText = JSON.stringify($('form').serializeObject());
+    document.getElementById("qdois").reset();
     $('#result').text(JSON.stringify($('form').serializeObject()));
      $.ajax({
     type: "POST",
@@ -119,20 +120,19 @@ var jsonText = JSON.stringify($('form').serializeObject());
     success: function(response) {
             $("#uploadResponse").append(response);
     },
-
+    
     });
 });
 });
 
-
 </script>
     </head>
     <body onload="fillForms()">
-    <form method= "post" id="qdois">
+    <form method= "post" id="qdois" name="q2">
     <input type="text" placeholder="Enter Your Nickname" id="nameBox" name="name">
     <input type="text" placeholder="Enter Your Email" id="emailBox" name="email">
     <input type="text" placeholder="Enter Your Question" id="questionBox" name="question">
-    <input type="hidden" id="srcBox" name="source" pattern="JSON">
+    <input type="hidden" id="srcBox" name="source">
     <input type="hidden" id="mdmBox" name="medium">
     <input type="hidden" id="cpnBox" name="campaign">
     <input type="submit" value="Send" id="submit">
