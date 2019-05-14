@@ -1,27 +1,14 @@
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@izabelamartins 
-0
-0 0 ordulruk/BigHub Private
- Code  Issues 0  Pull requests 0  Projects 0  Insights
-BigHub/utm_and_form.html
-@izabelamartins izabelamartins Código de junção das informações (UMT+FORM)
-7137efc 4 days ago
-97 lines (79 sloc)  2.8 KB
-    
 <html>
 <head>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
 <script>
+
 	var today = new Date();
 	var expiry = new Date(today.getTime() + 3600 * 24 * 3600 * 1000);
+
 	function getParameter(theParameter) 
 	{
       	var params = window.location.search.substr(1).split('&');
@@ -63,20 +50,23 @@ BigHub/utm_and_form.html
 			return decodeURIComponent(cookie_sp[1]);
 		}
 	}
+
 	return null;
 }
+
 function get_desired_parameters()
 	{
-		url_src = getParameter('utm_source');
-      	url_mdm = getParameter('utm_medium');
-      	url_cpn = getParameter('utm_campaign');
-      	set_cookie("utm_source", url_src);
-      	set_cookie("utm_medium", url_mdm);
-      	set_cookie("utm_campaign", url_cpn);
+		source = getParameter('utm_source');
+      	medium = getParameter('utm_medium');
+      	campaign = getParameter('utm_campaign');
+      	set_cookie("utm_source", source);
+      	set_cookie("utm_medium", medium);
+      	set_cookie("utm_campaign", campaign);
       	
       	return true;
     }
     
+
     function fillForms() {
         var srcBox = document.createElement("scrBox");
         srcBox.setAttribute("srcBox", Cookies.get("utm_source"));
@@ -91,17 +81,20 @@ function get_desired_parameters()
     	document.getElementById("mdmBox").value = Cookies.get("utm_medium");
     	document.getElementById("cpnBox").value = Cookies.get("utm_campaign");
 }
+
 </script>
     </head>
     <body onload="fillForms()">
     <form method= "post" name="qdois" action="mailto:izabela.martins@qdois.com.br">
-    <input type="text" placeholder="Enter Your Nickname" id="nameBox" name="usrname">
-    <input type="hidden" id="srcBox" name="url_src">
-    <input type="hidden" id="mdmBox" name="url_mdm">
-    <input type="hidden" id="cpnBox" name="url_cpn">
+    <input type="text" placeholder="Enter Your Nickname" id="nameBox" name="name">
+    <input type="text" placeholder="Enter Your Email" id="nameBox" name="email">
+    <input type="text" placeholder="Enter Your Question" id="nameBox" name="question">
+    <input type="hidden" id="srcBox" name="source" pattern="JSON">
+    <input type="hidden" id="mdmBox" name="medium">
+    <input type="hidden" id="cpnBox" name="campaign">
     <input type="submit" value="Send" id="submit">
-
     </form>
 
 </body>
+
   </html>
