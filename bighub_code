@@ -8,9 +8,11 @@
 
 <script>
 
-  var today = new Date();
+   	var today = new Date();
 	var expiry = new Date(today.getTime() + 3600 * 24 * 3600 * 1000);
-
+	
+	/*function getParameter pega os valores da URL referente as UTM's, 
+	a cada '&' ela separa o valor e seta como parâmetro*/
 	function getParameter(theParameter) 
 	{
       	var params = window.location.search.substr(1).split('&');
@@ -23,6 +25,9 @@
         }
         return false;
     }
+    
+    /* function set_cookie, seta o nome do cookie, assim como a expiração
+    e qual a página que será setado o cookie*/
 	function set_cookie(cookie_name, cookie_value)
 	{
       	var cookie_expire = 10;
@@ -40,6 +45,8 @@
         document.cookie = cookie;
     } 
     
+    /* function get_cookie pega o valor do cookie baseado no nome que foi destinado
+    á ele. Separa a URL a cada caractere '&' e armazena no browser*/
     function get_cookie(cookie_name)
     {
     	var cookieg = document.cookie.split(";");
@@ -56,7 +63,9 @@
 	return null;
 }
 
-function get_desired_parameters()
+    /* function get_desired_parameters. Usa a função getParameter, para especificar
+    os valores das UTM's, como source, medium e campaign*/
+    function get_desired_parameters()
 	{
 		source = getParameter('utm_source');
       	medium = getParameter('utm_medium');
@@ -69,8 +78,9 @@ function get_desired_parameters()
       	return true;
     }
     
-
- function fillForms() {
+    /* function FillForms seta os elementos do form para serem preenchidos com os 
+    valores dos cookies */
+     function fillForms() {
         var srcBox = document.createElement("scrBox");
         srcBox.setAttribute("srcBox", Cookies.get("utm_source"));
     
@@ -87,8 +97,8 @@ function get_desired_parameters()
     	var elem = document.createElement("qdois");
     	document.getElementById("qdois").value;
     	elem.value = "My default value"; 
-} 
-
+    } 
+    
 $.fn.serializeObject = function()
 {
 var o = {};
@@ -105,7 +115,7 @@ $.each(a, function() {
 });
 return o;
 };
-
+    
 $(function() {
 $("#qdois").click(function(e) {
 e.preventDefault();
@@ -113,9 +123,10 @@ e.preventDefault();
 
 $('#btnClick').click(function() {
    
-   var jsonText = JSON.stringify($('form').serializeObject());
-   document.getElementById("qdois").reset();
-   $('#result').text(JSON.stringify($('form').serializeObject()));
+    var jsonText = JSON.stringify($('form').serializeObject());
+    document.getElementById("qdois").reset();
+    $('#result').text(JSON.stringify($('form').serializeObject()));
+
     
     $.ajax({
     type: "POST",
@@ -129,8 +140,11 @@ $('#btnClick').click(function() {
             $("#uploadResponse").append(response); 
     },
     
-        });
     });
+    
+   
+    
+});
 });
 
 </script>
