@@ -73,7 +73,6 @@
       	set_cookie("utm_source", source);
       	set_cookie("utm_medium", medium);
       	set_cookie("utm_campaign", campaign);
-      	get_cookie(utm_source);
       	
       	return true;
     }
@@ -140,11 +139,8 @@ $('#btnClick').click(function() {
             $("#uploadResponse").append(response); 
     },
     
+        });
     });
-    
-   
-    
-});
 });
 
 </script>
