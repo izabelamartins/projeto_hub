@@ -4,7 +4,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="https://inputstore.netlify.com/inputStore.jquery.min.js"></script>
 
 <script>
 
@@ -77,12 +76,36 @@
       	return true;
     }
     
+    function teste() {
+        var srcBox = Cookies.get("utm_source");
+        var srcOK = Cookies.get("utm_medium");
+        var scrTA = Cookies.get("utm_campaign")
+        
+        var res = srcBox.concat(srcOK);
+        var teste1 = JSON.stringify(srcBox);
+        var teste2 = JSON.stringify(srcOK);
+        var teste3 = JSON.stringify(scrTA);
+        var dados = JSON.parse(JSON.stringify(srcBox));
+        
+        var variavel = teste1.concat(teste2,teste3);
+        var jsonCookie = JSON.stringify(variavel);
+        
+        var book = { 
+            utm_source: JSON.stringify(srcBox),
+            utm_medium: JSON.stringify(srcOK),
+            utm_campaign: JSON.stringify(scrTA)
+        }; 
+        
+        var jsonText = JSON.stringify(book);
+        //alert(variavel);
+        
+       }
     /* function FillForms seta os elementos do form para serem preenchidos com os 
     valores dos cookies */
      function fillForms() {
         var srcBox = document.createElement("scrBox");
         srcBox.setAttribute("srcBox", Cookies.get("utm_source"));
-    
+
         var mdmBox = document.createElement("mdmBox");
         mdmBox.setAttribute("mdmBox", Cookies.get("utm_medium"));
         
@@ -121,27 +144,45 @@ e.preventDefault();
 });
 
 $('#btnClick').click(function() {
-   
+    
     var jsonText = JSON.stringify($('form').serializeObject());
     document.getElementById("qdois").reset();
     $('#result').text(JSON.stringify($('form').serializeObject()));
 
+     var cookieData = { 
+            utm_source: Cookies.get("utm_source"),
+            utm_medium: Cookies.get("utm_medium"),
+            utm_campaign: Cookies.get("utm_campaign")
+        };
+        
+        var jsonCookie = JSON.stringify(cookieData);
+        var cookieUTM = JSON.parse(jsonCookie);
+        var formData = JSON.parse(jsonText);
+        
+    var dataLake = {
+        
+        form: formData,
+        cookie: cookieUTM
+    };
+    
+   var dataTotal = JSON.stringify(dataLake);
     
     $.ajax({
     type: "POST",
     url: "https://prod-02.centralus.logic.azure.com:443/workflows/33c889efd937451f8d16095d53973f73/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ocA9ImKZSfx24XkTh0wqW1az_lX-xOzy9l0Ir4DyEPc",
-    data: jsonText,
+    data: dataTotal,
     crossDomain: true,
     dataType: "text/plain",
 
     //if received a response from the server
     success: function(response) {
             $("#uploadResponse").append(response); 
-    },
-    
+            },
         });
     });
 });
+        
+teste();
 
 </script>
     </head>
@@ -150,6 +191,5 @@ $('#btnClick').click(function() {
     <input type="text" placeholder="Enter Your Email" id="emailBox" name="email">
     <input type="text" placeholder="Enter Your Question" id="questionBox" name="question">
     <input type="submit" value="Click me" id="btnClick">
-    
     </form>
   </html>
